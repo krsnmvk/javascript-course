@@ -44,4 +44,93 @@ const restaurant = {
       close: 24,
     },
   },
+
+  order: function (starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+
+  orderDelivery: function ({ time, address, starterIndex = 2, mainIndex }) {
+    console.log(
+      `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+    );
+  },
+
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(
+      `Here is your declicious pasta with ${ing1}, ${ing2} and ${ing3}`
+    );
+  },
 };
+
+const arr = [4, 5, 6];
+const badNewArr = [1, 2, 3, arr[0], arr[1], arr[2]];
+console.log(badNewArr);
+
+const newArr = [1, 2, 3, ...arr];
+console.log(newArr);
+console.log(...newArr);
+
+const newMenu = [...restaurant.mainMenu, 'Bakso'];
+console.log(newMenu);
+
+const newMenuCopy = [...newMenu];
+console.log(newMenuCopy);
+
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+console.log(menu);
+
+const str = 'Jonas';
+console.log(...str);
+
+const ingredients = [
+  prompt("Let's make pasta! Ingredient 1"),
+  prompt('Ingredient 2'),
+  prompt('Ingredient 3'),
+];
+console.log(ingredients);
+restaurant.orderPasta(ingredients[0], ingredients[1], ingredients[2]);
+restaurant.orderPasta(...ingredients);
+
+const newRestaurant = { ...restaurant, founder: 'Guisppe' };
+console.log(newRestaurant);
+
+/*
+restaurant.orderDelivery({
+  time: '22:45',
+  address: 'Via Del Sole, 11',
+  // starterIndex: 0,
+  mainIndex: 1,
+});
+
+const { categories, name: restaurantName, openingHours } = restaurant;
+console.log(categories, restaurantName, openingHours);
+
+let a, b, c;
+const obj = { a: 1, b: 2, c: 3 };
+({ a, b, c } = obj);
+console.log(a, b, c);
+
+const {
+  fri: { close, open },
+} = openingHours;
+console.log(close, open);
+
+const arr = [1, 2, 3];
+
+const a = arr[0];
+const b = arr[1];
+const c = arr[2];
+
+const [x, y, z] = arr;
+console.log(a, b, c, x, y, z);
+
+const [first, second] = restaurant.categories;
+console.log(first, second);
+
+const [starter, main] = restaurant.order(1, 0);
+console.log(starter, main);
+
+const nested = [1, 2, 3, [4, 5]];
+const [i, q = 10, , [j, k]] = nested;
+console.log(i, q, j, k);
+*/

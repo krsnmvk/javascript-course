@@ -67,6 +67,37 @@ const restaurant = {
   },
 };
 
+const rest1 = {
+  name: 'Capri',
+  numGest: 20,
+};
+
+const rest2 = {
+  name: 'La Pizza',
+  owner: 'Giovanni Rossi',
+};
+
+// restaurant.numGest = rest1.numGest || 10;
+// restaurant.numGest = rest2.numGest || 10;
+rest1.numGest ||= 10;
+rest2.numGest ||= 10;
+console.log(rest1);
+console.log(rest2);
+
+// rest1.owner = rest1.owner && '<ANONYMOUS>';
+// rest2.owner = rest2.owner && '<ANONYMOUS>';
+rest1.owner &&= '<ANONYMOUS>';
+rest2.owner &&= '<ANONYMOUS>';
+console.log(rest1);
+console.log(rest2);
+
+// Nullish assignment operator (null and undefined)
+rest1.numGest ??= 10;
+rest2.numGest ??= 10;
+console.log(rest1);
+console.log(rest2);
+
+/*
 // Nullish: null and undefined (NOT 0 or '')
 const guest = restaurant.numGuest ?? 10;
 console.log(guestCorrect);
@@ -75,7 +106,6 @@ console.log(guestCorrect);
 const guestCorrect = restaurant.numGuest || 10;
 console.log(guest);
 
-/*
 // or
 console.log(3 || 'Jonas');
 console.log(false || 'Jonas');

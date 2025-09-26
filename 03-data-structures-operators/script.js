@@ -108,6 +108,15 @@ const game = {
   },
 };
 
+const menus = [...restaurant.starterMenu, ...restaurant.mainMenu];
+for (const menu of menus) {
+  console.log(menu);
+}
+
+for (const [i, v] of menus.entries()) {
+  console.log(`${i + 1}: ${v}`);
+}
+
 ///////////////////////////////////////
 // Coding Challenge #1
 
@@ -128,7 +137,7 @@ TEST DATA FOR 6: Use players 'Davies', 'Muller', 'Lewandowski' and 'Kimmich'. Th
 
 GOOD LUCK 😀
 */
-
+/*
 // 1
 const [player1, player2] = game.players;
 console.log(player1, player2);
@@ -162,7 +171,6 @@ printGoals(...game.score);
 team1 < team2 && console.log('Team 1 is more likely to win');
 team1 > team2 && console.log('Team 2 is more likely to win');
 
-/*
 const rest1 = {
   name: 'Capri',
   numGest: 20,

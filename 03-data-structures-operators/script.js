@@ -60,8 +60,40 @@ const restaurant = {
       `Here is your declicious pasta with ${ing1}, ${ing2} and ${ing3}`
     );
   },
+
+  orderPizza: function (mainIngredient, ...otherIngredient) {
+    console.log(mainIngredient);
+    console.log(otherIngredient);
+  },
 };
 
+const arr = [1, 2, 3, ...[4, 5]];
+const [a, b, c, ...others] = arr;
+console.log(others);
+
+const [risotto, focaccia, ...otherFood] = [
+  ...restaurant.mainMenu,
+  ...restaurant.starterMenu,
+];
+console.log(risotto, focaccia, otherFood);
+
+const { thu, ...weekdays } = restaurant.openingHours;
+console.log(thu, weekdays);
+
+function add(...num) {
+  let sum = 0;
+  for (let i = 0; i < num.length; i++) {
+    sum += num[i];
+  }
+  console.log(sum);
+}
+add(1, 2, 3);
+
+const x = [23, 65, 28];
+console.log(...x);
+
+restaurant.orderPizza('mushrooms', 'onion', 'olives', 'spinach');
+/*
 const arr = [4, 5, 6];
 const badNewArr = [1, 2, 3, arr[0], arr[1], arr[2]];
 console.log(badNewArr);
@@ -93,8 +125,6 @@ restaurant.orderPasta(...ingredients);
 
 const newRestaurant = { ...restaurant, founder: 'Guisppe' };
 console.log(newRestaurant);
-
-/*
 restaurant.orderDelivery({
   time: '22:45',
   address: 'Via Del Sole, 11',

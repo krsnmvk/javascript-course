@@ -112,6 +112,25 @@ const game = {
   },
 };
 
+if (restaurant.openingHours && restaurant.openingHours.thu) {
+  console.log(restaurant.openingHours.thu.open);
+}
+
+// with optional chaining
+console.log(restaurant.openingHours.thu?.open);
+
+const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+for (const day of days) {
+  const open = restaurant.openingHours[day]?.open ?? 'closed';
+  console.log(`On ${day}, we open at ${open}`);
+}
+
+console.log(restaurant.order?.(0, 2) ?? 'Methkd does not exist');
+
+const users = [{ name: 'Jonas', email: 'hallo@jonas.io' }];
+console.log(users?.[0] ?? 'users array empty');
+console.log(users?.[1] ?? 'users array empty');
+
 /*
 const menus = [...restaurant.starterMenu, ...restaurant.mainMenu];
 for (const menu of menus) {

@@ -112,6 +112,28 @@ const game = {
   },
 };
 
+for (const day of Object.keys(openingHours)) {
+  console.log(day);
+}
+
+const properties = Object.keys(openingHours);
+console.log(properties);
+
+let openStr = `We are open at ${properties.length} days: `;
+for (const day of properties) {
+  openStr += `${day}, `;
+}
+console.log(openStr);
+
+const values = Object.values(openingHours);
+console.log(values);
+
+const entries = Object.entries(openingHours);
+for (const [key, { open, close }] of entries) {
+  console.log(`On ${key} we open at ${open} and close at ${close}`);
+}
+
+/*
 if (restaurant.openingHours && restaurant.openingHours.thu) {
   console.log(restaurant.openingHours.thu.open);
 }
@@ -131,7 +153,6 @@ const users = [{ name: 'Jonas', email: 'hallo@jonas.io' }];
 console.log(users?.[0] ?? 'users array empty');
 console.log(users?.[1] ?? 'users array empty');
 
-/*
 const menus = [...restaurant.starterMenu, ...restaurant.mainMenu];
 for (const menu of menus) {
   console.log(menu);

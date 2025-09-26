@@ -67,6 +67,38 @@ const restaurant = {
   },
 };
 
+// or
+console.log(3 || 'Jonas');
+console.log(false || 'Jonas');
+console.log('' || 'Jonas');
+console.log(true || 'Jonas');
+console.log(undefined || null);
+console.log(3 || 'Jonas' || 0 || '' || true || false || undefined || null);
+
+const guests1 = restaurant.numGuest ? restaurant.numGuest : 10;
+console.log(guests1);
+
+const guests2 = restaurant.numGuest || 10;
+console.log(guests2);
+
+// and
+console.log(3 && 'Jonas');
+console.log(false && 'Jonas');
+console.log('' && 'Jonas');
+console.log(true && 'Jonas');
+console.log(undefined && null);
+console.log(3 && 'Jonas' && 0 && '' && true && false && undefined && null);
+
+const guests3 = restaurant.numGuest && 10;
+console.log(guests3);
+
+// practical example
+if (restaurant.orderPizza) {
+  restaurant.orderPizza('mushrooms', 'spinach');
+}
+
+restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach');
+/*
 const arr = [1, 2, 3, ...[4, 5]];
 const [a, b, c, ...others] = arr;
 console.log(others);
@@ -93,7 +125,7 @@ const x = [23, 65, 28];
 console.log(...x);
 
 restaurant.orderPizza('mushrooms', 'onion', 'olives', 'spinach');
-/*
+
 const arr = [4, 5, 6];
 const badNewArr = [1, 2, 3, arr[0], arr[1], arr[2]];
 console.log(badNewArr);

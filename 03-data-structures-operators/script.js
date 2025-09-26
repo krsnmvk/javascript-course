@@ -67,6 +67,15 @@ const restaurant = {
   },
 };
 
+// Nullish: null and undefined (NOT 0 or '')
+const guest = restaurant.numGuest ?? 10;
+console.log(guestCorrect);
+
+// restaurant.numGest = undefined | 0
+const guestCorrect = restaurant.numGuest || 10;
+console.log(guest);
+
+/*
 // or
 console.log(3 || 'Jonas');
 console.log(false || 'Jonas');
@@ -98,7 +107,7 @@ if (restaurant.orderPizza) {
 }
 
 restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach');
-/*
+
 const arr = [1, 2, 3, ...[4, 5]];
 const [a, b, c, ...others] = arr;
 console.log(others);

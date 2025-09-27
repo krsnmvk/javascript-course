@@ -112,6 +112,23 @@ const game = {
   },
 };
 
+const commonFoods = italianFoods.intersection(mexicanFoods);
+console.log('Intersection: ', commonFoods);
+console.log([...commonFoods]);
+
+const italianMaxicanFusion = italianFoods.union(mexicanFoods);
+console.log('Union: ', italianMaxicanFusion);
+
+const uniqueItalianFoods = italianFoods.difference(mexicanFoods);
+console.log('Difference: ', uniqueItalianFoods);
+
+const uniqueItalianMexicanFoods =
+  italianFoods.symmetricDifference(mexicanFoods);
+console.log('SymmetricDifference: ', uniqueItalianMexicanFoods);
+
+console.log(italianFoods.isDisjointFrom(mexicanFoods));
+
+/*
 const ordersSet = new Set([
   'Pizza',
   'Risotto',
@@ -155,6 +172,7 @@ const staff = [
   'waiter',
   'barista',
 ];
+
 const staffUnique = [...new Set(staff)];
 console.log(staffUnique);
 

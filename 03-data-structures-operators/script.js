@@ -112,6 +112,39 @@ const game = {
   },
 };
 
+const rest = new Map();
+rest.set('name', 'Classico Italian');
+rest.set(1, 'Firenze, Italy');
+rest.set(2, 'Lisbon, Portugal');
+console.log(rest);
+
+rest
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 9)
+  .set('close', 22)
+  .set(true, 'we are open :D')
+  .set(false, 'we are closed :(');
+console.log(rest.get(true));
+console.log(rest.get('categories'));
+
+const time = 21;
+console.log(rest.get(time > rest.get('open') && time < rest.get('closed')));
+
+console.log(rest.has('categories'));
+
+rest.delete(2);
+console.log(rest.has(2));
+
+console.log(rest.size);
+
+rest.set([2, 3], 'Test');
+console.log(rest.get([2, 3]));
+
+const arr = [2, 3];
+rest.set(arr, 'Test');
+console.log(rest.get(arr));
+
+/*
 const commonFoods = italianFoods.intersection(mexicanFoods);
 console.log('Intersection: ', commonFoods);
 console.log([...commonFoods]);
@@ -128,7 +161,6 @@ console.log('SymmetricDifference: ', uniqueItalianMexicanFoods);
 
 console.log(italianFoods.isDisjointFrom(mexicanFoods));
 
-/*
 const ordersSet = new Set([
   'Pizza',
   'Risotto',

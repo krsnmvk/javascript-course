@@ -112,6 +112,68 @@ const game = {
   },
 };
 
+const ordersSet = new Set([
+  'Pizza',
+  'Risotto',
+  'Pasta',
+  'Pizza',
+  'Risotto',
+  'Pasta',
+]);
+console.log(ordersSet);
+
+console.log(new Set('Jonas'));
+
+console.log(ordersSet.size);
+console.log(ordersSet.has('Pizza'));
+console.log(ordersSet.has('Bread'));
+
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread');
+console.log(ordersSet);
+
+for (const order of ordersSet) {
+  console.log(order);
+}
+
+ordersSet.delete('Garlic Bread');
+console.log(ordersSet);
+
+ordersSet.clear('Garlic Bread');
+console.log(ordersSet);
+
+const staff = [
+  'waiter',
+  'chef',
+  'cashier',
+  'waiter',
+  'cleaning service',
+  'chef',
+  'manager',
+  'barista',
+  'cashier',
+  'waiter',
+  'barista',
+];
+const staffUnique = [...new Set(staff)];
+console.log(staffUnique);
+
+console.log(
+  new Set([
+    'waiter',
+    'chef',
+    'cashier',
+    'waiter',
+    'cleaning service',
+    'chef',
+    'manager',
+    'barista',
+    'cashier',
+    'waiter',
+    'barista',
+  ]).size
+);
+
 ///////////////////////////////////////
 // Coding Challenge #2
 
@@ -132,10 +194,10 @@ BONUS: Create an object called 'scorers' which contains the names of the players
         Hummels: 1,
         Lewandowski: 2
       }
-
-GOOD LUCK 😀
+        
+ GOOD LUCK 😀
 */
-
+/*
 // 1
 for (let [i, player] of game.scored.entries()) {
   console.log(`Goal ${i + 1}: ${player}`);
@@ -154,7 +216,6 @@ for (const [team, odd] of Object.entries(game.odds)) {
   console.log(`Odd of ${teamStr} ${odd}`);
 }
 
-/*
 for (const day of Object.keys(openingHours)) {
   console.log(day);
 }

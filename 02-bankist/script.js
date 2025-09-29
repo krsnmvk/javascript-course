@@ -158,6 +158,24 @@ function updateUI(accs) {
   calcDisplaySummary(accs);
 }
 
+function startLogoutTimer() {
+  let time = 300;
+
+  const timer = setInterval(() => {
+    const min = String(Math.floor(time / 60)).padStart(2, 0);
+    const sec = String(Math.floor(time % 60)).padStart(2, 0);
+
+    labelTimer.textContent = `${min}:${sec}`;
+    time--;
+
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+  }, 1000);
+}
+
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
 
@@ -170,9 +188,10 @@ btnLogin.addEventListener('click', function (e) {
       currentAccount.owner.split(' ')[0]
     }`;
 
-    // inputLoginUsername.value = '';
-    // inputLoginPin.value = '';
+    inputLoginUsername.value = '';
+    inputLoginPin.value = '';
 
+    startLogoutTimer();
     updateUI(currentAccount);
   }
 });

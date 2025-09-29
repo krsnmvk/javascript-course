@@ -104,4 +104,9 @@ function creatingUsernames(accs) {
   });
 }
 creatingUsernames(accounts);
-console.log(accounts);
+
+function calcDisplayBalance(movements) {
+  const balance = movements.reduce((acc, curr) => acc + curr, 0);
+  labelBalance.textContent = `${balance}€`;
+}
+calcDisplayBalance(account1.movements);

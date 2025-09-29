@@ -99,7 +99,7 @@ function displayMovements(movements, year = 2025, sort = false) {
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-        <div class="movements__date">${getRandomDateInYear(year)}</div>
+        <div class="movements__date">${getRandomDateInYear(Number(year))}</div>
         <div class="movements__value">${mov}€</div>
     </div>
     `;
@@ -228,6 +228,7 @@ btnLoan.addEventListener('click', function (e) {
 });
 
 let sorted = false;
+const year = 2025;
 
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
@@ -236,10 +237,16 @@ btnSort.addEventListener('click', function (e) {
   sorted = !sorted;
 });
 
-const now = new Date();
-const day = `${now.getDate()}`.padStart(2, 0);
-const month = `${now.getMonth() + 1}`.padStart(2, 0);
-const year = now.getFullYear();
-const hour = now.getHours();
-const min = now.getMinutes();
-labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
+function updateTime() {
+  const now = new Date();
+  const day = `${now.getDate()}`.padStart(2, '0');
+  const month = `${now.getMonth() + 1}`.padStart(2, '0');
+  const year = now.getFullYear();
+  const hour = `${now.getHours()}`.padStart(2, '0');
+  const min = `${now.getMinutes()}`.padStart(2, '0');
+  const sec = `${now.getSeconds()}`.padStart(2, '0');
+
+  labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}:${sec}`;
+}
+updateTime();
+setInterval(updateTime, 1000);

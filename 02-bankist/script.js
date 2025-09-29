@@ -85,6 +85,13 @@ function getRandomDateInYear(year) {
   return `${day}/${month}/${year}`;
 }
 
+function formatter(mov) {
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
+  }).format(mov);
+}
+
 /////////////////////////////////////////////////
 function displayMovements(movements, year = 2025, sort = false) {
   containerMovements.innerHTML = '';
@@ -100,7 +107,7 @@ function displayMovements(movements, year = 2025, sort = false) {
       i + 1
     } ${type}</div>
         <div class="movements__date">${getRandomDateInYear(Number(year))}</div>
-        <div class="movements__value">${mov}€</div>
+        <div class="movements__value">${formatter(mov)}</div>
     </div>
     `;
 
@@ -121,26 +128,26 @@ creatingUsernames(accounts);
 
 function calcDisplayBalance(accs) {
   accs.balance = accs.movements.reduce((acc, curr) => acc + curr, 0);
-  labelBalance.textContent = `${accs.balance}€`;
+  labelBalance.textContent = `${formatter(accs.balance)}`;
 }
 
 function calcDisplaySummary(accs) {
   const income = accs.movements
     .filter((mov) => mov > 0)
     .reduce((acc, curr) => acc + curr, 0);
-  labelSumIn.textContent = `${income}€`;
+  labelSumIn.textContent = `${formatter(income)}`;
 
   const out = accs.movements
     .filter((mov) => mov < 0)
     .reduce((acc, curr) => acc + curr, 0);
-  labelSumOut.textContent = `${Math.abs(out)}€`;
+  labelSumOut.textContent = `${formatter(Math.abs(out))}`;
 
   const interest = accs.movements
     .filter((mov) => mov > 0)
     .map((dep) => (dep * 1.2) / 100)
     .filter((num) => num >= 1)
     .reduce((acc, curr) => acc + curr, 0);
-  labelSumInterest.textContent = `${interest}€`;
+  labelSumInterest.textContent = `${formatter(interest)}`;
 }
 
 let currentAccount;

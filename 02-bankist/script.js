@@ -73,8 +73,20 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+function getRandomDateInYear(year) {
+  const randomMonth = Math.floor(Math.random() * 12);
+  const daysInMonth = new Date(year, randomMonth + 1, 0).getDate();
+  const randomDay = Math.floor(Math.random() * daysInMonth) + 1;
+
+  const day = randomDay < 10 ? '0' + randomDay : randomDay;
+  const month =
+    randomMonth + 1 < 10 ? '0' + (randomMonth + 1) : randomMonth + 1;
+
+  return `${day}/${month}/${year}`;
+}
+
 /////////////////////////////////////////////////
-function displayMovements(movements, sort = false) {
+function displayMovements(movements, year = 2025, sort = false) {
   containerMovements.innerHTML = '';
 
   const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
@@ -87,6 +99,7 @@ function displayMovements(movements, sort = false) {
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
+        <div class="movements__date">${getRandomDateInYear(year)}</div>
         <div class="movements__value">${mov}€</div>
     </div>
     `;
@@ -146,7 +159,7 @@ btnLogin.addEventListener('click', function (e) {
   );
   if (currentAccount?.pin === Number(inputLoginPin?.value)) {
     containerApp.style.opacity = 1;
-    labelWelcome.textContent = `Welcome back ${
+    labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
     }`;
 
@@ -219,6 +232,14 @@ let sorted = false;
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
 
-  displayMovements(currentAccount.movements, !sorted);
+  displayMovements(currentAccount.movements, year, !sorted);
   sorted = !sorted;
 });
+
+const now = new Date();
+const day = `${now.getDate()}`.padStart(2, 0);
+const month = `${now.getMonth() + 1}`.padStart(2, 0);
+const year = now.getFullYear();
+const hour = now.getHours();
+const min = now.getMinutes();
+labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;

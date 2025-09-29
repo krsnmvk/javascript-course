@@ -93,3 +93,15 @@ function displayMovements(movements) {
   });
 }
 displayMovements(account1.movements);
+
+function creatingUsernames(accs) {
+  accs.forEach((acc) => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map((name) => name[0])
+      .join('');
+  });
+}
+creatingUsernames(accounts);
+console.log(accounts);

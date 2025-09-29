@@ -74,10 +74,12 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
-function displayMovements(movements) {
+function displayMovements(movements, sort = false) {
   containerMovements.innerHTML = '';
 
-  movements.forEach((mov, i, arr) => {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach((mov, i, arr) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -210,4 +212,13 @@ btnLoan.addEventListener('click', function (e) {
   }
 
   inputLoanAmount.value = '';
+});
+
+let sorted = false;
+
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });

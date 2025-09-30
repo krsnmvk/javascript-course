@@ -1,0 +1,285 @@
+'use strict';
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+// BANKIST APP
+
+// Data
+const account1 = {
+  owner: 'Jonas Schmedtmann',
+  movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+  interestRate: 1.2, // %
+  pin: 1111,
+};
+
+const account2 = {
+  owner: 'Jessica Davis',
+  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+  interestRate: 1.5,
+  pin: 2222,
+};
+
+const account3 = {
+  owner: 'Steven Thomas Williams',
+  movements: [200, -200, 340, -300, -20, 50, 400, -460],
+  interestRate: 0.7,
+  pin: 3333,
+};
+
+const account4 = {
+  owner: 'Sarah Smith',
+  movements: [430, 1000, 700, 50, 90],
+  interestRate: 1,
+  pin: 4444,
+};
+
+const accounts = [account1, account2, account3, account4];
+
+// Elements
+const labelWelcome = document.querySelector('.welcome');
+const labelDate = document.querySelector('.date');
+const labelBalance = document.querySelector('.balance__value');
+const labelSumIn = document.querySelector('.summary__value--in');
+const labelSumOut = document.querySelector('.summary__value--out');
+const labelSumInterest = document.querySelector('.summary__value--interest');
+const labelTimer = document.querySelector('.timer');
+
+const containerApp = document.querySelector('.app');
+const containerMovements = document.querySelector('.movements');
+
+const btnLogin = document.querySelector('.login__btn');
+const btnTransfer = document.querySelector('.form__btn--transfer');
+const btnLoan = document.querySelector('.form__btn--loan');
+const btnClose = document.querySelector('.form__btn--close');
+const btnSort = document.querySelector('.btn--sort');
+
+const inputLoginUsername = document.querySelector('.login__input--user');
+const inputLoginPin = document.querySelector('.login__input--pin');
+const inputTransferTo = document.querySelector('.form__input--to');
+const inputTransferAmount = document.querySelector('.form__input--amount');
+const inputLoanAmount = document.querySelector('.form__input--loan-amount');
+const inputCloseUsername = document.querySelector('.form__input--user');
+const inputClosePin = document.querySelector('.form__input--pin');
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+// LECTURES
+
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+function getRandomDateInYear(year) {
+  const randomMonth = Math.floor(Math.random() * 12);
+  const daysInMonth = new Date(year, randomMonth + 1, 0).getDate();
+  const randomDay = Math.floor(Math.random() * daysInMonth) + 1;
+
+  const day = randomDay < 10 ? '0' + randomDay : randomDay;
+  const month =
+    randomMonth + 1 < 10 ? '0' + (randomMonth + 1) : randomMonth + 1;
+
+  return `${day}/${month}/${year}`;
+}
+
+function formatter(mov) {
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
+  }).format(mov);
+}
+
+/////////////////////////////////////////////////
+function displayMovements(movements, year = 2025, sort = false) {
+  containerMovements.innerHTML = '';
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach((mov, i, arr) => {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+    const html = `
+     <div class="movements__row">
+        <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
+        <div class="movements__date">${getRandomDateInYear(Number(year))}</div>
+        <div class="movements__value">${formatter(mov)}</div>
+    </div>
+    `;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+}
+
+function creatingUsernames(accs) {
+  accs.forEach((acc) => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map((name) => name[0])
+      .join('');
+  });
+}
+creatingUsernames(accounts);
+
+function calcDisplayBalance(accs) {
+  accs.balance = accs.movements.reduce((acc, curr) => acc + curr, 0);
+  labelBalance.textContent = `${formatter(accs.balance)}`;
+}
+
+function calcDisplaySummary(accs) {
+  const income = accs.movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, curr) => acc + curr, 0);
+  labelSumIn.textContent = `${formatter(income)}`;
+
+  const out = accs.movements
+    .filter((mov) => mov < 0)
+    .reduce((acc, curr) => acc + curr, 0);
+  labelSumOut.textContent = `${formatter(Math.abs(out))}`;
+
+  const interest = accs.movements
+    .filter((mov) => mov > 0)
+    .map((dep) => (dep * 1.2) / 100)
+    .filter((num) => num >= 1)
+    .reduce((acc, curr) => acc + curr, 0);
+  labelSumInterest.textContent = `${formatter(interest)}`;
+}
+
+let currentAccount;
+
+function updateUI(accs) {
+  displayMovements(accs.movements);
+  calcDisplayBalance(accs);
+  calcDisplaySummary(accs);
+}
+
+function startLogoutTimer() {
+  let time = 300;
+
+  const timer = setInterval(() => {
+    const min = String(Math.floor(time / 60)).padStart(2, 0);
+    const sec = String(Math.floor(time % 60)).padStart(2, 0);
+
+    labelTimer.textContent = `${min}:${sec}`;
+    time--;
+
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+  }, 1000);
+}
+
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    (acc) => acc.username === String(inputLoginUsername?.value)
+  );
+  if (currentAccount?.pin === Number(inputLoginPin?.value)) {
+    containerApp.style.opacity = 1;
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+
+    inputLoginUsername.value = '';
+    inputLoginPin.value = '';
+
+    startLogoutTimer();
+    updateUI(currentAccount);
+  }
+});
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    (acc) => acc.username == String(inputTransferTo.value)
+  );
+
+  inputTransferAmount.value = '';
+  inputTransferTo.value = '';
+
+  if (
+    amount > 0 &&
+    currentAccount.balance >= amount &&
+    receiverAcc.username !== currentAccount.username
+  ) {
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(-amount);
+
+    updateUI(currentAccount);
+  }
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (
+    String(inputCloseUsername?.value) === currentAccount?.username &&
+    Number(inputLoginPin?.value) === currentAccount?.pin
+  ) {
+    const index = accounts.findIndex(
+      (acc) => acc.username === currentAccount.username
+    );
+    accounts.splice(index, 1);
+    containerApp.style.opacity = 0;
+  }
+
+  inputCloseUsername.value = '';
+  inputClosePin.value = '';
+});
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    currentAccount.movements.some((mov) => mov >= amount * 0.1)
+  ) {
+    currentAccount.movements.push(amount);
+    updateUI(currentAccount);
+  }
+
+  inputLoanAmount.value = '';
+});
+
+let sorted = false;
+const year = 2025;
+
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  displayMovements(currentAccount.movements, year, !sorted);
+  sorted = !sorted;
+});
+
+function updateTime() {
+  const now = new Date();
+
+  const options = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZoneName: 'short',
+  };
+
+  const formatter = new Intl.DateTimeFormat('id-ID', options);
+  labelDate.textContent = formatter.format(now);
+}
+
+updateTime();
+setInterval(updateTime, 1000);

@@ -121,3 +121,19 @@ const headerObserver = new IntersectionObserver(
   }
 );
 headerObserver.observe(header);
+
+//////////
+const allSections = document.querySelectorAll('.section');
+
+const sectionObserver = new IntersectionObserver(
+  (entries, observer) => {
+    const [entry] = entries;
+
+    if (!entry.isIntersecting) return;
+
+    entry.target.classList.remove('section--hidden');
+    observer.unobserve(entry.target);
+  },
+  { root: null, threshold: 0.15 }
+);
+allSections.forEach((section) => sectionObserver.observe(section));

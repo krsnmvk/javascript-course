@@ -106,13 +106,13 @@ const navHeight = nav.getBoundingClientRect().height;
 
 const headerObserver = new IntersectionObserver(
   (entries) => {
-    const [entry] = entries;
-
-    if (!entry.isIntersecting) {
-      nav.classList.add('sticky');
-    } else {
-      nav.classList.remove('sticky');
-    }
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) {
+        nav.classList.add('sticky');
+      } else {
+        nav.classList.remove('sticky');
+      }
+    });
   },
   {
     root: null,
@@ -127,13 +127,33 @@ const allSections = document.querySelectorAll('.section');
 
 const sectionObserver = new IntersectionObserver(
   (entries, observer) => {
-    const [entry] = entries;
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
 
-    if (!entry.isIntersecting) return;
-
-    entry.target.classList.remove('section--hidden');
-    observer.unobserve(entry.target);
+      entry.target.classList.remove('section--hidden');
+      observer.unobserve(entry.target);
+    });
   },
   { root: null, threshold: 0.15 }
 );
 allSections.forEach((section) => sectionObserver.observe(section));
+
+/////////
+const imgTargets = document.querySelectorAll('img[data-src]');
+
+const imgObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+
+      entry.target.src = entry.target.dataset.src;
+      entry.target.addEventListener('load', function () {
+        entry.target.classList.remove('lazy-img');
+      });
+
+      observer.unobserve(entry.target);
+    });
+  },
+  { root: null, threshold: 0, rootMargin: '-200px' }
+);
+imgTargets.forEach((img) => imgObserver.observe(img));

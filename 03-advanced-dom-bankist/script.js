@@ -157,3 +157,77 @@ const imgObserver = new IntersectionObserver(
   { root: null, threshold: 0, rootMargin: '-200px' }
 );
 imgTargets.forEach((img) => imgObserver.observe(img));
+
+/////////
+const slides = document.querySelectorAll('.slide');
+const btnRight = document.querySelector('.slider__btn--right');
+const btnLeft = document.querySelector('.slider__btn--left');
+const slider = document.querySelector('.slider');
+const dotContainer = document.querySelector('.dots');
+
+let currentSlide = 0;
+const maxSlide = slides.length;
+
+function createDots() {
+  slides.forEach((_, i) => {
+    dotContainer.insertAdjacentHTML(
+      'beforeend',
+      `
+      <button type="button" class="dots__dot" data-slide="${i}"></button>
+      `
+    );
+  });
+}
+createDots();
+
+function activeDots(currSlide) {
+  document
+    .querySelectorAll('.dots__dot')
+    .forEach((dot) => dot.classList.remove('dots__dot--active'));
+  document
+    .querySelector(`.dots__dot[data-slide="${currSlide}"]`)
+    .classList.add('dots__dot--active');
+}
+activeDots(0);
+
+function goToSlide(currSlide) {
+  slides.forEach(
+    (slide, i) =>
+      (slide.style.transform = `translateX(${100 * (i - currSlide)}%)`)
+  );
+}
+goToSlide(0);
+
+function nextSlide() {
+  if (currentSlide === maxSlide - 1) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+
+  goToSlide(currentSlide);
+  activeDots(currentSlide);
+}
+
+function prevSlide() {
+  if (currentSlide === 0) {
+    currentSlide = maxSlide - 1;
+  } else {
+    currentSlide--;
+  }
+
+  goToSlide(currentSlide);
+  activeDots(currentSlide);
+}
+
+btnRight.addEventListener('click', nextSlide);
+btnLeft.addEventListener('click', prevSlide);
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowLeft') prevSlide();
+  if (e.key === 'ArrowRight') nextSlide();
+});
+dotContainer.addEventListener('click', function (e) {
+  currentSlide = Number(e.target.dataset.slide);
+  goToSlide(currentSlide);
+  activeDots(currentSlide);
+});
